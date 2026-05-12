@@ -1,113 +1,105 @@
+export interface PortfolioItem {
+  id: string;
+  index: string;
+  title: string;
+  subtitle: string;
+  date: string;
+  temp: string;
+  delta: string;
+  tags: string[];
+  description: string;
+  link?: string;
+  hue: number;
+}
 
-import { Pet, PetType, PetAge, PetSize } from './types';
+export const PORTFOLIO_ITEMS: PortfolioItem[] = [
+  {
+    id: 'co_01',
+    index: 'PORTFOLIO_CO_01',
+    title: 'AURORA',
+    subtitle: 'AI Creative Studio',
+    date: '01.02.2024',
+    temp: '33.78',
+    delta: '+00.95',
+    tags: ['AI', 'GENERATIVE', 'WEB'],
+    description: 'A generative design studio producing on-demand brand systems via diffusion + LLM pipelines.',
+    link: '#',
+    hue: 210
+  },
+  {
+    id: 'co_02',
+    index: 'PORTFOLIO_CO_02',
+    title: 'OVERPASS',
+    subtitle: 'On-chain Identity Layer',
+    date: '06.01.2023',
+    temp: '24.84',
+    delta: '-03.98',
+    tags: ['CRYPTO', 'IDENTITY', 'PROTOCOL'],
+    description: 'A reputation graph for decentralised communities — credentials without custodians.',
+    link: '#',
+    hue: 195
+  },
+  {
+    id: 'co_03',
+    index: 'PORTFOLIO_CO_03',
+    title: 'NORTHWIND',
+    subtitle: 'Consumer iOS App',
+    date: '11.08.2024',
+    temp: '29.12',
+    delta: '+01.40',
+    tags: ['MOBILE', 'CONSUMER', 'DESIGN'],
+    description: 'A daily journaling companion blending ambient audio, AI memory and mindful UI.',
+    link: '#',
+    hue: 220
+  },
+  {
+    id: 'co_04',
+    index: 'PORTFOLIO_CO_04',
+    title: 'GLACIER',
+    subtitle: 'DAO Treasury Tools',
+    date: '03.04.2025',
+    temp: '18.05',
+    delta: '-05.21',
+    tags: ['DAO', 'FINANCE', 'ANALYTICS'],
+    description: 'Risk-aware treasury dashboards for decentralised organisations operating across L2s.',
+    link: '#',
+    hue: 200
+  }
+];
 
-export const MOCK_PETS: Pet[] = [
+export interface StatItem {
+  label: string;
+  value: string;
+  suffix?: string;
+}
+
+export const STATS: StatItem[] = [
+  { label: 'YEARS BUILDING', value: '07' },
+  { label: 'SHIPPED PROJECTS', value: '24' },
+  { label: 'COMMUNITIES', value: '12' },
+  { label: 'COFFEES / DAY', value: '∞' }
+];
+
+export interface SkillSet {
+  category: string;
+  items: string[];
+}
+
+export const SKILLS: SkillSet[] = [
   {
-    id: '1',
-    name: 'Luna',
-    type: PetType.DOG,
-    breed: 'Golden Retriever',
-    age: PetAge.YOUNG,
-    size: PetSize.LARGE,
-    distance: 2.5,
-    location: 'San Francisco, CA',
-    description: 'Luna is a friendly, energetic Golden Retriever looking for an active family. She loves hiking and playing fetch.',
-    images: ['https://picsum.photos/id/237/800/600', 'https://picsum.photos/id/1025/800/600', 'https://picsum.photos/id/1062/800/600'],
-    gender: 'Female',
-    ownerName: 'Sarah Jenkins',
-    ownerAvatar: 'https://i.pravatar.cc/150?u=sarah',
-    postedAt: '2 days ago',
-    isVaccinated: true,
-    isNeutered: true
+    category: '/// DESIGN',
+    items: ['Brand Systems', '3D / Motion', 'Product UX', 'Spatial UI']
   },
   {
-    id: '2',
-    name: 'Oliver',
-    type: PetType.CAT,
-    breed: 'Scottish Fold',
-    age: PetAge.ADULT,
-    size: PetSize.MEDIUM,
-    distance: 5.1,
-    location: 'Oakland, CA',
-    description: 'Oliver is a calm and affectionate indoor cat. He enjoys sunbathing by the window and soft head scratches.',
-    images: ['https://picsum.photos/id/40/800/600', 'https://picsum.photos/id/41/800/600'],
-    gender: 'Male',
-    ownerName: 'David Chen',
-    ownerAvatar: 'https://i.pravatar.cc/150?u=david',
-    postedAt: '5 hours ago',
-    isVaccinated: true,
-    isNeutered: true
+    category: '/// ENGINEERING',
+    items: ['TypeScript / React', 'Three.js / WebGL', 'Solidity / EVM', 'Node / Edge Functions']
   },
   {
-    id: '3',
-    name: 'Buddy',
-    type: PetType.DOG,
-    breed: 'Beagle',
-    age: PetAge.SENIOR,
-    size: PetSize.SMALL,
-    distance: 1.2,
-    location: 'Berkeley, CA',
-    description: 'Buddy is a sweet senior dog who just wants a cozy spot to nap. He is great with kids and other pets.',
-    images: ['https://picsum.photos/id/1025/800/600'],
-    gender: 'Male',
-    ownerName: 'Maria Rodriguez',
-    ownerAvatar: 'https://i.pravatar.cc/150?u=maria',
-    postedAt: '1 week ago',
-    isVaccinated: true,
-    isNeutered: true
+    category: '/// AI',
+    items: ['LLM Tooling', 'RAG Pipelines', 'Agentic Flows', 'Prompt Architecture']
   },
   {
-    id: '4',
-    name: 'Simba',
-    type: PetType.CAT,
-    breed: 'Maine Coon',
-    age: PetAge.BABY,
-    size: PetSize.MEDIUM,
-    distance: 8.4,
-    location: 'San Jose, CA',
-    description: 'Simba is a playful kitten with a big personality. He is very curious and loves to climb.',
-    images: ['https://picsum.photos/id/593/800/600'],
-    gender: 'Male',
-    ownerName: 'Chris Taylor',
-    ownerAvatar: 'https://i.pravatar.cc/150?u=chris',
-    postedAt: '12 hours ago',
-    isVaccinated: false,
-    isNeutered: false
-  },
-  {
-    id: '5',
-    name: 'Snowball',
-    type: PetType.RABBIT,
-    breed: 'Holland Lop',
-    age: PetAge.YOUNG,
-    size: PetSize.SMALL,
-    distance: 4.0,
-    location: 'Walnut Creek, CA',
-    description: 'Snowball is a gentle rabbit who loves fresh carrots and greens. Very sociable and well-handled.',
-    images: ['https://picsum.photos/id/659/800/600'],
-    gender: 'Female',
-    ownerName: 'Emma Wilson',
-    ownerAvatar: 'https://i.pravatar.cc/150?u=emma',
-    postedAt: '3 days ago',
-    isVaccinated: true,
-    isNeutered: true
-  },
-  {
-    id: '6',
-    name: 'Charlie',
-    type: PetType.DOG,
-    breed: 'Poodle Mix',
-    age: PetAge.ADULT,
-    size: PetSize.MEDIUM,
-    distance: 3.2,
-    location: 'Palo Alto, CA',
-    description: 'Charlie is intelligent and eager to please. He knows several tricks and is perfectly crate trained.',
-    images: ['https://picsum.photos/id/1062/800/600'],
-    gender: 'Male',
-    ownerName: 'John Doe',
-    ownerAvatar: 'https://i.pravatar.cc/150?u=john',
-    postedAt: '1 day ago',
-    isVaccinated: true,
-    isNeutered: true
+    category: '/// OPERATIONS',
+    items: ['Community Building', 'Token Design', 'Fundraising', 'GTM Strategy']
   }
 ];

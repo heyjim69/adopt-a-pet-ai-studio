@@ -1,129 +1,121 @@
+import React, { useEffect, useRef, useState } from 'react';
+import { Volume2, VolumeX } from 'lucide-react';
 
-import React from 'react';
-
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost' | 'danger';
-  size?: 'sm' | 'md' | 'lg';
-  fullWidth?: boolean;
-}
-
-export const Button: React.FC<ButtonProps> = ({ 
-  children, 
-  variant = 'primary', 
-  size = 'md', 
-  fullWidth = false,
-  className = '',
-  ...props 
+/* -----------------------------------------------------------------------------
+ * Reveal — viewport-triggered fade/slide for scroll storytelling.
+ * -------------------------------------------------------------------------- */
+export const Reveal: React.FC<{ children: React.ReactNode; delay?: number; className?: string }> = ({
+  children,
+  delay = 0,
+  className = ''
 }) => {
-  const baseStyles = 'inline-flex items-center justify-center font-medium transition-all duration-200 rounded-custom focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
-  
-  const variants = {
-    primary: 'bg-primary text-white hover:bg-blue-700 focus:ring-blue-500',
-    secondary: 'bg-secondary text-white hover:bg-emerald-600 focus:ring-emerald-500',
-    outline: 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-gray-500',
-    ghost: 'bg-transparent text-gray-600 hover:bg-gray-100',
-    danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
-  };
+  const ref = useRef<HTMLDivElement>(null);
+  const [shown, setShown] = useState(false);
 
-  const sizes = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
-    lg: 'px-6 py-3 text-lg',
-  };
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setShown(true), delay);
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.18 }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
+  }, [delay]);
 
   return (
-    <button 
-      className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${fullWidth ? 'w-full' : ''} ${className}`}
-      {...props}
-    >
+    <div ref={ref} className={`reveal ${shown ? 'in' : ''} ${className}`}>
       {children}
+    </div>
+  );
+};
+
+/* -----------------------------------------------------------------------------
+ * SoundToggle — bottom-left audio control using WebAudio ambient drone.
+ * -------------------------------------------------------------------------- */
+export const SoundToggle: React.FC<{ on: boolean; onToggle: () => void }> = ({ on, onToggle }) => {
+  return (
+    <button
+      onClick={onToggle}
+      className="group flex items-center gap-2 px-3 py-2 rounded-md hover:bg-white/5 transition font-mono text-xs tracking-[0.25em] text-ice-100"
+      aria-label="Toggle ambient sound"
+    >
+      <span className="relative inline-flex w-5 h-5 items-center justify-center">
+        {on ? (
+          <Volume2 className="w-4 h-4 text-ice-100 animate-pulse-soft" />
+        ) : (
+          <VolumeX className="w-4 h-4 text-ice-400" />
+        )}
+      </span>
+      <span className="opacity-90">Sound: <span className={on ? 'text-ice-100' : 'text-ice-400'}>{on ? 'On' : 'Off'}</span></span>
     </button>
   );
 };
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  error?: string;
-}
-
-export const Input: React.FC<InputProps> = ({ className = '', error, ...props }) => (
-  <div className="w-full">
-    <input 
-      className={`w-full px-4 py-2 border rounded-custom outline-none transition-all ${
-        error ? 'border-red-500 focus:ring-2 focus:ring-red-200' : 'border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent'
-      } ${className}`}
-      {...props}
-    />
-    {error && <p className="mt-1 text-xs text-red-500 font-medium">{error}</p>}
-  </div>
-);
-
-interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  error?: string;
-  maxChars?: number;
-  currentChars?: number;
-}
-
-export const Textarea: React.FC<TextareaProps> = ({ className = '', error, maxChars, currentChars, ...props }) => (
-  <div className="w-full relative">
-    <textarea 
-      className={`w-full px-4 py-2 border rounded-custom outline-none transition-all min-h-[100px] ${
-        error ? 'border-red-500 focus:ring-2 focus:ring-red-200' : 'border-gray-300 focus:ring-2 focus:ring-primary focus:border-transparent'
-      } ${className}`}
-      {...props}
-    />
-    {maxChars !== undefined && currentChars !== undefined && (
-      <div className={`absolute bottom-2 right-2 text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/80 border ${currentChars >= maxChars ? 'text-red-500 border-red-200' : 'text-gray-400 border-gray-100'}`}>
-        {currentChars} / {maxChars}
-      </div>
-    )}
-    {error && <p className="mt-1 text-xs text-red-500 font-medium">{error}</p>}
-  </div>
-);
-
-export const Card: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <div className={`bg-white rounded-custom shadow-sm border border-gray-100 overflow-hidden ${className}`}>
-    {children}
-  </div>
-);
-
-export const Badge: React.FC<{ children: React.ReactNode; color?: string }> = ({ children, color = 'bg-blue-100 text-blue-800' }) => (
-  <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${color}`}>
-    {children}
-  </span>
-);
-
-export const Label: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-  <label className={`block text-sm font-medium text-gray-700 mb-1 ${className}`}>
-    {children}
-  </label>
-);
-
-export const Modal: React.FC<{ 
-  isOpen: boolean; 
-  onClose: () => void; 
-  title?: string; 
-  children: React.ReactNode;
-  maxWidth?: string;
-}> = ({ isOpen, onClose, title, children, maxWidth = 'max-w-md' }) => {
-  if (!isOpen) return null;
-  
+/* -----------------------------------------------------------------------------
+ * Header — brand mark, subtle nav and manifesto column.
+ * -------------------------------------------------------------------------- */
+export const Header: React.FC<{ onNav: (id: string) => void }> = ({ onNav }) => {
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
-      <div 
-        className={`bg-white rounded-custom shadow-xl w-full ${maxWidth} overflow-hidden transform transition-all animate-in zoom-in-95 duration-200`}
-        onClick={(e) => e.stopPropagation()}
+    <header className="fixed top-0 left-0 right-0 z-40 px-5 md:px-8 py-5 flex justify-between items-start pointer-events-none">
+      <button
+        onClick={() => onNav('hero')}
+        className="font-display font-bold text-3xl md:text-4xl tracking-tight text-ice-50 text-glow pointer-events-auto"
       >
-        <div className="flex items-center justify-between p-4 border-b">
-          <h3 className="text-lg font-bold text-gray-900">{title}</h3>
-          <button onClick={onClose} className="p-1 rounded-full hover:bg-gray-100 transition-colors">
-            <svg className="w-6 h-6 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div className="p-6">
-          {children}
-        </div>
+        jim<span className="text-ice-300">69</span>
+      </button>
+
+      <nav className="hidden md:flex items-center gap-8 font-mono text-[11px] tracking-[0.3em] text-ice-200 pointer-events-auto">
+        <button onClick={() => onNav('manifesto')} className="hover:text-ice-50 transition">/MANIFESTO</button>
+        <button onClick={() => onNav('portfolio')} className="hover:text-ice-50 transition">/PORTFOLIO</button>
+        <button onClick={() => onNav('skills')} className="hover:text-ice-50 transition">/SKILLS</button>
+        <button onClick={() => onNav('contact')} className="hover:text-ice-50 transition">/CONTACT</button>
+      </nav>
+    </header>
+  );
+};
+
+/* -----------------------------------------------------------------------------
+ * SideMeta — telemetry strip down the right edge of the hero.
+ * -------------------------------------------------------------------------- */
+export const SideMeta: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+  <div className="font-mono text-[10px] tracking-[0.3em] text-ice-300/80">
+    <div className="text-ice-400/70">{label}</div>
+    <div className="text-ice-100">{value}</div>
+  </div>
+);
+
+/* -----------------------------------------------------------------------------
+ * Bracket — corner-bracket framing for hero / portfolio cards.
+ * -------------------------------------------------------------------------- */
+export const Bracket: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <>
+    <span className={`absolute top-0 left-0 w-4 h-4 border-l border-t border-ice-200/70 ${className}`} />
+    <span className={`absolute top-0 right-0 w-4 h-4 border-r border-t border-ice-200/70 ${className}`} />
+    <span className={`absolute bottom-0 left-0 w-4 h-4 border-l border-b border-ice-200/70 ${className}`} />
+    <span className={`absolute bottom-0 right-0 w-4 h-4 border-r border-b border-ice-200/70 ${className}`} />
+  </>
+);
+
+/* -----------------------------------------------------------------------------
+ * Marquee — scrolling text band used between sections.
+ * -------------------------------------------------------------------------- */
+export const Marquee: React.FC<{ items: string[] }> = ({ items }) => {
+  const doubled = [...items, ...items];
+  return (
+    <div className="relative overflow-hidden py-6 border-y border-ice-700/40 bg-ice-950/40">
+      <div className="flex marquee whitespace-nowrap gap-12 font-display font-bold text-3xl md:text-5xl text-ice-100/80">
+        {doubled.map((s, i) => (
+          <span key={i} className="flex items-center gap-12">
+            <span>{s}</span>
+            <span className="text-ice-400">/</span>
+          </span>
+        ))}
       </div>
     </div>
   );
