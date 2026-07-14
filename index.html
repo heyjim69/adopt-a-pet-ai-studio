@@ -1,47 +1,186 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pawsitive Connections</title>
+    <meta name="theme-color" content="#0a0d12" />
+    <title>JIM69 — Portfolio</title>
+    <meta name="description" content="Jim69 — Builder at the intersection of community, AI and crypto." />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
         theme: {
           extend: {
             colors: {
-              primary: '#2563EB',
-              secondary: '#10B981',
+              ice: {
+                50: '#f5f7fa',
+                100: '#e9eef3',
+                200: '#cdd6e0',
+                300: '#9faec1',
+                400: '#6f8499',
+                500: '#4e6379',
+                600: '#3a4a5c',
+                700: '#2b3845',
+                800: '#1c2530',
+                900: '#11161e',
+                950: '#070a0f'
+              },
+              glacier: '#c7d6e2',
+              frost: '#e6eef5'
             },
-            borderRadius: {
-              'custom': '8px',
+            fontFamily: {
+              mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
+              display: ['"Space Grotesk"', '"Inter"', 'system-ui', 'sans-serif']
             },
             backgroundImage: {
-              'app-gradient': 'linear-gradient(to bottom right, #EFF6FF, #F0FDF4)',
+              'arctic': 'radial-gradient(ellipse at 50% 0%, rgba(255,255,255,0.08), transparent 60%), linear-gradient(180deg, #0b0f15 0%, #11161e 40%, #1a232e 100%)',
+              'glass-card': 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%)'
+            },
+            animation: {
+              'spin-slow': 'spin 22s linear infinite',
+              'spin-slower': 'spin 60s linear infinite',
+              'spin-reverse': 'spin 30s linear infinite reverse',
+              'float': 'float 8s ease-in-out infinite',
+              'pulse-soft': 'pulse-soft 3s ease-in-out infinite',
+              'flicker': 'flicker 4s linear infinite',
+              'reveal': 'reveal 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards',
+              'scan': 'scan 3s linear infinite'
+            },
+            keyframes: {
+              float: {
+                '0%,100%': { transform: 'translateY(0) rotate(0deg)' },
+                '50%': { transform: 'translateY(-12px) rotate(2deg)' }
+              },
+              'pulse-soft': {
+                '0%,100%': { opacity: 0.6 },
+                '50%': { opacity: 1 }
+              },
+              flicker: {
+                '0%,100%': { opacity: 1 },
+                '47%': { opacity: 1 },
+                '49%': { opacity: 0.4 },
+                '50%': { opacity: 0.85 },
+                '51%': { opacity: 0.3 },
+                '52%': { opacity: 1 }
+              },
+              reveal: {
+                '0%': { opacity: 0, transform: 'translateY(24px)' },
+                '100%': { opacity: 1, transform: 'translateY(0)' }
+              },
+              scan: {
+                '0%': { transform: 'translateY(-100%)' },
+                '100%': { transform: 'translateY(100vh)' }
+              }
             }
           }
         }
       }
     </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-      body {
-        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      :root {
+        color-scheme: dark;
       }
-      .custom-scrollbar::-webkit-scrollbar {
-        width: 6px;
+      html, body {
+        background: #070a0f;
+        color: #e6eef5;
+        font-family: 'JetBrains Mono', ui-monospace, monospace;
+        overflow-x: hidden;
+        -webkit-font-smoothing: antialiased;
       }
-      .custom-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
+      * { -webkit-tap-highlight-color: transparent; }
+
+      /* Subtle global grain */
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 50;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.06 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+        mix-blend-mode: overlay;
+        opacity: .55;
       }
-      .custom-scrollbar::-webkit-scrollbar-thumb {
-        background: #CBD5E1;
-        border-radius: 10px;
+
+      /* Scan line */
+      body::after {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 40;
+        background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+        height: 120px;
+        animation: scan 6s linear infinite;
       }
-      .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: #94A3B8;
+
+      .glass {
+        background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.015));
+        backdrop-filter: blur(14px) saturate(140%);
+        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        border: 1px solid rgba(255,255,255,0.08);
       }
+
+      .text-glow {
+        text-shadow: 0 0 24px rgba(199,214,226,0.45), 0 0 2px rgba(255,255,255,0.6);
+      }
+
+      .corner-bracket::before,
+      .corner-bracket::after {
+        content: '';
+        position: absolute;
+        width: 12px; height: 12px;
+        border-color: rgba(230,238,245,0.7);
+        border-style: solid;
+      }
+      .corner-bracket::before {
+        top: 0; left: 0;
+        border-width: 1px 0 0 1px;
+      }
+      .corner-bracket::after {
+        bottom: 0; right: 0;
+        border-width: 0 1px 1px 0;
+      }
+
+      .vignette {
+        box-shadow:
+          inset 0 0 140px rgba(0,0,0,0.6),
+          inset 0 -80px 200px rgba(0,0,0,0.3);
+      }
+
+      .grid-bg {
+        background-image:
+          linear-gradient(rgba(199,214,226,0.05) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(199,214,226,0.05) 1px, transparent 1px);
+        background-size: 48px 48px;
+        background-position: -1px -1px;
+      }
+
+      .custom-scrollbar::-webkit-scrollbar { width: 4px; height: 4px; }
+      .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+      .custom-scrollbar::-webkit-scrollbar-thumb { background: #2b3845; border-radius: 4px; }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(28px);
+        transition: opacity 1s cubic-bezier(0.22,1,0.36,1), transform 1s cubic-bezier(0.22,1,0.36,1);
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .marquee {
+        animation: marquee 38s linear infinite;
+      }
+      @keyframes marquee {
+        from { transform: translateX(0); }
+        to { transform: translateX(-50%); }
+      }
+
+      .cursor-target { cursor: none; }
     </style>
   <script type="importmap">
 {
@@ -49,14 +188,16 @@
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
     "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
+    "react-dom": "https://esm.sh/react-dom@^19.2.4",
+    "lucide-react": "https://esm.sh/lucide-react@^0.563.0",
+    "three": "https://esm.sh/three@0.171.0",
+    "three/": "https://esm.sh/three@0.171.0/"
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-app-gradient min-h-screen">
+  <body>
     <div id="root"></div>
-  <script type="module" src="/index.tsx"></script>
-</body>
+    <script type="module" src="/index.tsx"></script>
+  </body>
 </html>
